@@ -1,0 +1,788 @@
+openapi: 3.0.3
+info:
+  title: Shop API
+  description: |
+    # Introduction
+    A simple Shop API with `Express` and `Mongodb`, documented with `OpenAPI 3.0` specification.
+
+    &nbsp;
+
+    # Rate limits
+    Currently the number of API requests from a single IP is limited to `100` per `15 minutes`.
+
+    # Useful links
+    - [Swagger](/api/v1/docs/swagger) (Render this document with `Swagger`)
+    - [Redoc](/api/v1/docs/redoc) (Render this document with `Redoc`)
+
+    <SecurityDefinitions />
+  contact:
+    name: Aria
+    email: ariaarahmati@gmail.com
+    url: https://github.com/AriaRahmati
+  license:
+    name: MIT
+    url: 'https://opensource.org/license/mit/'
+  version: 1.0.0
+servers:
+  - url: https://shop-api.iran.liara.run/api/v1
+    description: Production Server
+  - url: http://localhost:3000/api/v1
+    description: Development Server
+tags:
+  - name: Auth
+  - name: Category
+  - name: SubCategory
+  - name: Product
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      operationId: register
+      requestBody:
+        $ref: "#/components/requestBodies/registerBody"
+      responses:
+        201:
+          $ref: "#/components/responses/authResponse"
+        400:
+          $ref: "#/components/responses/BadRequestError"
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: login
+      requestBody:
+        $ref: "#/components/requestBodies/loginBody"
+      responses:
+        200:
+          $ref: "#/components/responses/authResponse"
+        400:
+          $ref: "#/components/responses/BadRequestError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+  /category:
+    get:
+      tags:
+        - Category
+      summary: Get All Categories
+      operationId: getAllCategory
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: uint32
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            description: -1 to infinite
+            format: int32
+            default: -1
+      responses:
+        200:
+          $ref: "#/components/responses/getAllCategoryResponse"
+    post:
+      tags:
+        - Category
+      summary: Create Category
+      operationId: createCategory
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: "#/components/requestBodies/createCategoryBody"
+      responses:
+        201:
+          $ref: "#/components/responses/Created"
+        400:
+          $ref: "#/components/responses/BadRequestError"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+  /category/{categoryId}:
+    get:
+      tags:
+        - Category
+      summary: Get Category
+      operationId: getCategory
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/getCategoryResponse"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Category
+      summary: Update Category
+      operationId: updateCategory
+      security:
+        - Bearer: []
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/updateCategoryBody"
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - Category
+      summary: Delete Category
+      operationId: deleteCategory
+      security:
+        - Bearer: []
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+  /subcategory:
+    get:
+      tags:
+        - SubCategory
+      summary: Get All SubCategories
+      operationId: getAllSubCategory
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: uint32
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            description: -1 to infinite
+            format: int32
+            default: -1
+        - name: containProducts
+          in: query
+          schema:
+            type: boolean
+            description: return sub category products
+            default: false
+      responses:
+        200:
+          $ref: "#/components/responses/getAllSubCategoryResponse"
+    post:
+      tags:
+        - SubCategory
+      summary: Create SubCategory
+      operationId: createSubCategory
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: "#/components/requestBodies/createSubCategoryBody"
+      responses:
+        201:
+          $ref: "#/components/responses/Created"
+        400:
+          $ref: "#/components/responses/BadRequestError"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+  /subcategory/{subCategoryId}:
+    get:
+      tags:
+        - SubCategory
+      summary: Get SubCategory
+      operationId: getSubCategory
+      parameters:
+        - name: subCategoryId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: containProducts
+          in: query
+          schema:
+            type: boolean
+            description: return sub category products
+            default: false
+      responses:
+        200:
+          $ref: "#/components/responses/getSubCategoryResponse"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - SubCategory
+      summary: Update SubCategory
+      operationId: updateSubCategory
+      security:
+        - Bearer: []
+      parameters:
+        - name: subCategoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/updateSubCategoryBody"
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - SubCategory
+      summary: Delete SubCategory
+      operationId: deleteSubCategory
+      security:
+        - Bearer: []
+      parameters:
+        - name: subCategoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+  /product:
+    get:
+      tags:
+        - Product
+      summary: Get All Products
+      operationId: getAllProduct
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: uint32
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            description: -1 to infinite
+            format: int32
+            default: -1
+      responses:
+        200:
+          $ref: "#/components/responses/getAllProductResponse"
+    post:
+      tags:
+        - Product
+      summary: Create Product
+      operationId: createProduct
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: "#/components/requestBodies/createProductBody"
+      responses:
+        201:
+          $ref: "#/components/responses/Created"
+        400:
+          $ref: "#/components/responses/BadRequestError"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+  /product/{productId}:
+    get:
+      tags:
+        - Product
+      summary: Get Product
+      operationId: getProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/getProductResponse"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Product
+      summary: Update Product
+      operationId: updateProduct
+      security:
+        - Bearer: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/updateProductBody"
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      operationId: deleteProduct
+      security:
+        - Bearer: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        401:
+          $ref: "#/components/responses/UnAuthorizedError"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+components:
+  requestBodies:
+    registerBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - email
+              - password
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+                format: password
+                minLength: 8
+                maxLength: 32
+    loginBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+                format: password
+                minLength: 8
+                maxLength: 32
+    createCategoryBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+    updateCategoryBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+    createSubCategoryBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - category
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+              category:
+                type: string
+    updateSubCategoryBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - category
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+              category:
+                type: string
+    createProductBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required:
+              - name
+              - price
+              - image
+              - subCategory
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+              description:
+                type: string
+                maxLength: 200
+                default: ''
+              price:
+                type: integer
+                format: uint32
+              quantity:
+                type: integer
+                format: uint32
+                default: 0
+              image:
+                type: string
+                format: binary
+              subCategory:
+                type: string
+    updateProductBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required:
+              - name
+              - price
+              - subCategory
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 20
+              description:
+                type: string
+                maxLength: 200
+                default: ''
+              price:
+                type: integer
+                format: uint32
+              quantity:
+                type: integer
+                format: uint32
+                default: 0
+              image:
+                type: string
+                format: binary
+              subCategory:
+                type: string
+  responses:
+    authResponse:
+      description: CREATED
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+    getAllCategoryResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  hits:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Category"
+              - $ref: "#/components/schemas/Pagination"
+    getCategoryResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              category:
+                $ref: "#/components/schemas/Category"
+    getAllSubCategoryResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  hits:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SubCategory"
+              - $ref: "#/components/schemas/Pagination"
+    getSubCategoryResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              subCategory:
+                $ref: "#/components/schemas/SubCategory"
+    getAllProductResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  hits:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+              - $ref: "#/components/schemas/Pagination"
+    getProductResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              product:
+                $ref: "#/components/schemas/Product"
+    Ok:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Success"
+    Created:
+      description: CREATED
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Success"
+    BadRequestError:
+      description: BAD REQUEST
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    UnAuthorizedError:
+      description: UNAUTHORIZED
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFoundError:
+      description: NOT FOUND
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+          minLength: 3
+          maxLength: 20
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 32
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Category:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        subCategories:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubCategory"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    SubCategory:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        category:
+          type: object
+          $ref: "#/components/schemas/Category"
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          default: ""
+        price:
+          type: integer
+          format: uint32
+        quantity:
+          type: integer
+          format: uint32
+          default: 0
+        image:
+          type: string
+          format: binary
+        subCategory:
+          type: object
+          $ref: "#/components/schemas/SubCategory"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Success:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+    Pagination:
+      type: object
+      properties:
+        nbHits:
+          type: integer
+          description: "Total docs"
+          format: uint32
+        perPage:
+          description: "Total docs in the current page"
+          type: integer
+          format: uint32
+        nbPages:
+          description: "Number of pages"
+          type: integer
+          format: uint32
+        currentPage:
+          description: "Current page number"
+          type: integer
+          format: uint32
+        slNo:
+          description: "Index of first item in this page"
+          type: integer
+          format: uint32
+        hasPrevPage:
+          type: boolean
+          default: false
+        hasNextPage:
+          type: boolean
+          default: false
+        prevPage:
+          nullable: true
+          default: null
+          type: string
+        nextPage:
+          nullable: true
+          default: null
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
