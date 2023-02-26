@@ -381,11 +381,16 @@ components:
           schema:
             type: object
             required:
-              - name
+              - firstName
+              - lastName
               - email
               - password
             properties:
-              name:
+              firstName:
+                type: string
+                minLength: 3
+                maxLength: 20
+              lastName:
                 type: string
                 minLength: 3
                 maxLength: 20
@@ -648,7 +653,11 @@ components:
       properties:
         _id:
           type: string
-        name:
+        firstName:
+          type: string
+          minLength: 3
+          maxLength: 20
+        lastName:
           type: string
           minLength: 3
           maxLength: 20
