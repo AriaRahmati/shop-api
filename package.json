@@ -1,5 +1,5 @@
 {
-  "name": "shop",
+  "name": "shop-api",
   "version": "1.0.0",
   "description": "This is a simple Shop API with `Express` and `Mongodb`, documented with `OpenAPI 3.0` specification.",
   "main": "server.js",

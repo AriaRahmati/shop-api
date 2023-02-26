@@ -66,7 +66,7 @@ class Application {
 	}
 
 	startServer() {
-		const port = config.PORT || 5000;
+		const port = config.PORT || 3000;
 		const server = http.createServer(app);
 		server.listen(port, console.log(`server is listening on port ${port}`));
 	}
