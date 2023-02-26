@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-	name: { type: String, required: true },
+	firstName: { type: String, required: true },
+	lastName: { type: String, required: true },
 	email: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
 	bAdmin: { type: Boolean, default: false }
@@ -34,7 +35,8 @@ userSchema.methods.generateToken = function () {
 	const token = jwt.sign({
 		_id: this._id,
 		email: this.email,
-		name: this.name,
+		firstName: this.firstName,
+		lastName: this.lastName,
 		bAdmin: this.bAdmin
 	}, config.JWT_SECRET, { expiresIn: config.JWT_LIFETIME });
 	return token;

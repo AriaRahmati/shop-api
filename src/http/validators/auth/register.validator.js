@@ -3,9 +3,12 @@ const { check } = require('express-validator');
 class RegisterValidator {
 	handle() {
 		return [
-			check('name')
+			check('firstName')
 				.isLength({ min: 3, max: 20 })
-				.withMessage('name must be between 3 and 20 characters'),
+				.withMessage('first name must be between 3 and 20 characters'),
+			check('lastName')
+				.isLength({ min: 3, max: 20 })
+				.withMessage('last name must be between 3 and 20 characters'),
 			check('email')
 				.isEmail()
 				.withMessage('email is not valid'),

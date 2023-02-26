@@ -12,10 +12,11 @@ class RegisterController {
 			throw new BadRequestError(errors[0].msg);
 		}
 
-		const { name, email, password } = req.body;
+		const { firstName, lastName, email, password } = req.body;
 
 		const newUser = new User({
-			name,
+			firstName,
+			lastName,
 			email,
 			password
 		});
