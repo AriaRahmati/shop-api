@@ -1,0 +1,52 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "description": "This is a simple Shop API with `Express` and `Mongodb`, documented with `OpenAPI 3.0` specification.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon -e yaml,js server.js",
+    "build": "redoc-cli build docs.yaml --title \"Shop API Document\" -o docs.html"
+  },
+  "author": "Aria Rahmati",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-rate-limit": "^6.7.0",
+    "express-validator": "^6.15.0",
+    "helmet": "^6.0.1",
+    "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "module-alias": "^2.2.2",
+    "mongoose": "^6.9.2",
+    "mongoose-paginate-v2": "^1.7.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "redoc-cli": "^0.13.20",
+    "swagger-themes": "^1.2.26",
+    "swagger-ui-express": "^4.6.1",
+    "yaml": "^2.2.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3",
+    "nodemon": "^2.0.20"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@src": "src",
+    "@routes": "src/routes",
+    "@configs": "configs",
+    "@middlewares": "src/http/middlewares",
+    "@controllers": "src/http/controllers",
+    "@validators": "src/http/validators",
+    "@models": "src/models",
+    "@errors": "src/errors"
+  }
+}
