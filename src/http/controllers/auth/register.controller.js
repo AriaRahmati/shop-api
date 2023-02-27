@@ -14,14 +14,12 @@ class RegisterController {
 
 		const { firstName, lastName, email, password } = req.body;
 
-		const newUser = new User({
+		const newUser = User.create({
 			firstName,
 			lastName,
 			email,
 			password
 		});
-
-		await newUser.save();
 
 		const token = newUser.generateToken();
 

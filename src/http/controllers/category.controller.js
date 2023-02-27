@@ -34,9 +34,7 @@ class CategoryController {
 
 		const { name } = req.body;
 
-		const newCategory = new Category({ name });
-
-		await newCategory.save();
+		const newCategory = Category.create({ name });
 
 		res.status(StatusCodes.CREATED).json({ message: `category '${newCategory.name}' created` });
 	}

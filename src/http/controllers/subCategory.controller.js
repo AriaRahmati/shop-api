@@ -45,12 +45,10 @@ class CategoryController {
 		if (!category)
 			throw new NotFoundError(`no category was found with id: '${categoryId}'`);
 
-		const newSubCategory = new SubCategory({
+		const newSubCategory = SubCategory.create({
 			name,
 			category: categoryId
 		});
-
-		await newSubCategory.save();
 
 		res.status(StatusCodes.CREATED).json({ message: `sub category '${newSubCategory.name}' created` });
 	}

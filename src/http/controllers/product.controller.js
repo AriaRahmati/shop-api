@@ -48,7 +48,7 @@ class CategoryController {
 
 		const price = !isNaN(_price) ? Number(_price) : 0, quantity = !isNaN(_quantity) ? Number(_quantity) : 0;
 
-		const newProduct = new Product({
+		const newProduct = Product.create({
 			name,
 			description,
 			price,
@@ -56,8 +56,6 @@ class CategoryController {
 			subCategory: subCategoryId,
 			image: path.resolve(image.path)
 		});
-
-		await newProduct.save();
 
 		res.status(StatusCodes.CREATED).json({ message: `product '${newProduct.name}' created` });
 	}

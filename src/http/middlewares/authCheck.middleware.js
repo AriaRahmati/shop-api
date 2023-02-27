@@ -10,7 +10,7 @@ const authCheck = async (req, res, next, outsideMiddleware) => {
 
 	const token = authHeader.split(' ')[1];
 	try {
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const decoded = jwt.verify(token, config.JWT_SECRET);
 
 		const user = await User.findById(decoded._id).select('-__v -password');
 		if (!user)
