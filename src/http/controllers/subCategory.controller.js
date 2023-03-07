@@ -46,7 +46,10 @@ class CategoryController extends Controller {
 			category: categoryId
 		});
 
-		res.status(StatusCodes.CREATED).json({ message: `sub category '${newSubCategory.name}' created` });
+		res.status(StatusCodes.CREATED).json({
+			message: `sub category '${newSubCategory.name}' created`,
+			_id: newSubCategory._id
+		});
 	}
 
 	async get(req, res, next) {
@@ -75,11 +78,7 @@ class CategoryController extends Controller {
 	}
 
 	async update(req, res, next) {
-		const result = await this.validateData(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const {
 			params: { id: subCategoryId },

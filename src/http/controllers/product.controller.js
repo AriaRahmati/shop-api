@@ -53,7 +53,10 @@ class CategoryController extends Controller {
 			image: this.getImagePath(image)
 		});
 
-		res.status(StatusCodes.CREATED).json({ message: `product '${newProduct.name}' created` });
+		res.status(StatusCodes.CREATED).json({
+			message: `product '${newProduct.name}' created`,
+			_id: newProduct._id
+		});
 	}
 
 	async get(req, res, next) {

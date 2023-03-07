@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const UploadImage = require('@root/src/http/middlewares/uploadImages.middleware');
+const UploadImage = require('@middlewares/uploadImages.middleware');
 
 // Controllers
 const ProductController = require('@controllers/product.controller');

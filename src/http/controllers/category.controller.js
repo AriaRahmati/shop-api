@@ -31,7 +31,10 @@ class CategoryController extends Controller {
 
 		const newCategory = await Category.create({ name });
 
-		res.status(StatusCodes.CREATED).json({ message: `category '${newCategory.name}' created` });
+		res.status(StatusCodes.CREATED).json({
+			message: `category '${newCategory.name}' created`,
+			_id: newCategory._id
+		});
 	}
 
 	async get(req, res, next) {
