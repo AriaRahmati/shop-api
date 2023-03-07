@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const upload = require('@src/uploadImages');
+const UploadImage = require('@root/src/http/middlewares/uploadImages.middleware');
 
 // Controllers
 const ProductController = require('@controllers/product.controller');
@@ -10,6 +10,8 @@ const CheckUserAccess = require('@middlewares/checkUserAccess.middleware');
 
 // Validators
 const ProductValidator = require('@validators/product.validator');
+
+const upload = UploadImage.get();
 
 router.get('/', ProductController.getAll);
 router.post('/', CheckUserAccess.handle, upload.single('image'), fileToField.handle, ProductValidator.handle(), ProductController.create);
