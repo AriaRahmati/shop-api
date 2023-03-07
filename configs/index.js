@@ -6,5 +6,6 @@ module.exports = {
 	JWT_SECRET: process.env.JWT_SECRET,
 	JWT_LIFETIME: process.env.JWT_LIFETIME,
 	DATABASE: database,
-	PAGINATE_CUSTOM_LABELS: paginate
+	PAGINATE_CUSTOM_LABELS: paginate,
+	PUBLIC_DIR: './public'
 }

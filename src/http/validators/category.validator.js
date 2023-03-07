@@ -1,6 +1,7 @@
+const Validator = require('@validators/validator');
 const { check } = require('express-validator');
 
-class CategoryValidator {
+class CategoryValidator extends Validator {
 	handle() {
 		return [
 			check('name')
@@ -10,4 +11,4 @@ class CategoryValidator {
 	}
 }
 
-module.exports = new CategoryValidator();
+module.exports = new CategoryValidator;

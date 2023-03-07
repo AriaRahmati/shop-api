@@ -1,16 +1,11 @@
-const { validationResult } = require('express-validator');
+const Controller = require('@controllers/controller');
 const User = require('@models/user.model');
-const { BadRequestError, NotFoundError, UnAuthorizedError } = require('@errors/errors');
+const { NotFoundError, UnAuthorizedError } = require('@errors/errors');
 const { StatusCodes } = require('http-status-codes');
 
-
-class LoginController {
+class LoginController extends Controller {
 	async loginProcess(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const { email, password } = req.body;
 

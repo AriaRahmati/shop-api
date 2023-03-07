@@ -1,10 +1,11 @@
+const Validator = require('@validators/validator');
 const { check } = require('express-validator');
 
-class ProductValidator {
+class ProductValidator extends Validator {
 	handle() {
 		return [
 			check('name')
-				.isLength({ min: 3, max: 20 })
+				.isLength({ min: 3, max: 60 })
 				.withMessage('name must be between 3 and 20 characters'),
 			check('description')
 				.isLength({ max: 200 })
@@ -26,4 +27,4 @@ class ProductValidator {
 	}
 }
 
-module.exports = new ProductValidator();
+module.exports = new ProductValidator;

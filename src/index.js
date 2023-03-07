@@ -1,12 +1,10 @@
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
-const morgan = require('morgan');
+const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const router = require('@routes/routes');
-const notFound = require('@middlewares/notFound.middleware');
-const errorHandler = require('@middlewares/errorHandler.middleware');
 
 // security packages
 const cors = require('cors');
@@ -38,7 +36,7 @@ class Application {
 	}
 
 	configDatabase() {
-		console.log('connecting to database...')
+		console.log('connecting to database...');
 		return new Promise((resolve, reject) => {
 			mongoose.set('strictQuery', false);
 			mongoose.connect(config.DATABASE.URI, error => {
@@ -56,13 +54,12 @@ class Application {
 		app.use(apiLimiter);
 		app.use(bodyParser.json({ limit: '50kb' }));
 		app.use(bodyParser.urlencoded({ extended: true }));
-		app.use(morgan('dev'));
+		app.use(express.static(config.PUBLIC_DIR));
+		app.use(logger('dev'));
 	}
 
 	setRoutes() {
-		app.use('/', router);
-		app.all('*', notFound);
-		app.use(errorHandler);
+		app.use(router);
 	}
 
 	startServer() {

@@ -1,20 +1,14 @@
-const { validationResult } = require('express-validator');
-const { BadRequestError } = require('@errors/errors');
+const Controller = require('@controllers/controller');
+const User = require('@models/user.model');
 const { StatusCodes } = require('http-status-codes');
 
-const User = require('@models/user.model');
-
-class RegisterController {
+class RegisterController extends Controller {
 	async registerProcess(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const { firstName, lastName, email, password } = req.body;
 
-		const newUser = User.create({
+		const newUser = await User.create({
 			firstName,
 			lastName,
 			email,

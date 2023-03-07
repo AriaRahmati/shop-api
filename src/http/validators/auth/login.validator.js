@@ -1,6 +1,7 @@
+const Validator = require('@validators/validator');
 const { check } = require('express-validator');
 
-class LoginValidator {
+class LoginValidator extends Validator {
 	handle() {
 		return [
 			check('email')
@@ -13,4 +14,4 @@ class LoginValidator {
 	}
 }
 
-module.exports = new LoginValidator();
+module.exports = new LoginValidator;

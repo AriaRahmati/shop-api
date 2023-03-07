@@ -1,10 +1,10 @@
-const { validationResult } = require('express-validator');
+const Controller = require('@controllers/controller');
 const Category = require('@models/category.model');
 const SubCategory = require('@models/subCategory.model');
-const { BadRequestError, NotFoundError } = require('@errors/errors');
+const { NotFoundError } = require('@errors/errors');
 const { StatusCodes } = require('http-status-codes');
 
-class CategoryController {
+class CategoryController extends Controller {
 	async getAll(req, res, next) {
 		const page = parseInt(req.query.page) || 1, limit = parseInt(req.query.limit) || -1;
 		const containProducts = req.query.containProducts?.toLowerCase() === 'true' || false;
@@ -33,11 +33,7 @@ class CategoryController {
 	}
 
 	async create(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const { name, category: categoryId } = req.body;
 
@@ -45,7 +41,7 @@ class CategoryController {
 		if (!category)
 			throw new NotFoundError(`no category was found with id: '${categoryId}'`);
 
-		const newSubCategory = SubCategory.create({
+		const newSubCategory = await SubCategory.create({
 			name,
 			category: categoryId
 		});
@@ -70,7 +66,7 @@ class CategoryController {
 
 		const subCategory = await SubCategory.findById(subCategoryId)
 			.populate(populateOption)
-			.select('-__v -id');
+			.select('-__v');
 
 		if (!subCategory)
 			throw new NotFoundError(`no sub category was found with id: '${subCategoryId}'`);
@@ -79,7 +75,7 @@ class CategoryController {
 	}
 
 	async update(req, res, next) {
-		const result = await validationResult(req);
+		const result = await this.validateData(req);
 		if (!result.isEmpty()) {
 			const errors = result.array();
 			throw new BadRequestError(errors[0].msg);

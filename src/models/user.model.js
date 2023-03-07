@@ -10,6 +10,7 @@ const userSchema = new Schema({
 	password: { type: String, required: true },
 	bAdmin: { type: Boolean, default: false }
 }, {
+	id: false,
 	timestamps: true
 });
 

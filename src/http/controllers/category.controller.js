@@ -1,10 +1,9 @@
-const { validationResult } = require('express-validator');
+const Controller = require('@controllers/controller');
 const Category = require('@models/category.model');
-const SubCategory = require('@models/subCategory.model');
-const { BadRequestError, NotFoundError } = require('@errors/errors');
+const { NotFoundError } = require('@errors/errors');
 const { StatusCodes } = require('http-status-codes');
 
-class CategoryController {
+class CategoryController extends Controller {
 	async getAll(req, res, next) {
 		const page = parseInt(req.query.page) || 1, limit = parseInt(req.query.limit) || -1;
 		const paginateOptions = {
@@ -26,15 +25,11 @@ class CategoryController {
 	}
 
 	async create(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const { name } = req.body;
 
-		const newCategory = Category.create({ name });
+		const newCategory = await Category.create({ name });
 
 		res.status(StatusCodes.CREATED).json({ message: `category '${newCategory.name}' created` });
 	}
@@ -58,11 +53,7 @@ class CategoryController {
 	}
 
 	async update(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const {
 			params: { id: categoryId },

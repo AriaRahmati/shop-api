@@ -1,16 +1,31 @@
 {
   "name": "shop-api",
   "version": "1.0.0",
-  "description": "This is a simple Shop API with `Express` and `Mongodb`, documented with `OpenAPI 3.0` specification.",
+  "description": "This is a simple Shop API with Express and Mongodb, documented with OpenAPI 3.0 specification.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon -e yaml,js server.js",
+    "dev": "nodemon -e js,mjs,json,yaml server.js",
     "build": "redoc-cli build docs.yaml --title \"Shop API Document\" -o docs.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:AriaRahmati/shop-api.git"
   },
   "author": "Aria Rahmati",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AriaRahmati/shop-api/issues"
+  },
+  "homepage": "https://github.com/AriaRahmati/shop-api#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3",
+    "nodemon": "^2.0.20"
+  },
   "dependencies": {
+    "auto-bind-inheritance": "^1.0.6",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -32,17 +47,11 @@
     "swagger-ui-express": "^4.6.1",
     "yaml": "^2.2.1"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "husky": "^8.0.3",
-    "nodemon": "^2.0.20"
-  },
   "_moduleAliases": {
     "@root": ".",
     "@src": "src",
-    "@routes": "src/routes",
     "@configs": "configs",
+    "@routes": "src/routes",
     "@middlewares": "src/http/middlewares",
     "@controllers": "src/http/controllers",
     "@validators": "src/http/validators",

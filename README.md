@@ -144,8 +144,8 @@ In order to make your intellisense to function, you need to add these `paths` to
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "module": "commonjs",
-    "target": "es6",
+    "module": "CommonJS",
+    "target": "ESNext",
     "paths": {
       "@root/*": ["*"],
       "@src/*": ["src/*"],

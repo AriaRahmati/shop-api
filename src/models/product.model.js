@@ -10,6 +10,7 @@ const productSchema = new Schema({
 	image: { type: String, required: true },
 	subCategory: { type: Schema.Types.ObjectId, ref: 'SubCategory', required: true }
 }, {
+	id: false,
 	timestamps: true
 });
 

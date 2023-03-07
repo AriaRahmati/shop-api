@@ -1,4 +1,6 @@
-class FileToField {
+const Middleware = require('@middlewares/middleware');
+
+class FileToField extends Middleware {
 	handle(req, res, next) {
 		if (!req.file) {
 			req.body.image = undefined;
@@ -9,4 +11,4 @@ class FileToField {
 	}
 }
 
-module.exports = new FileToField();
+module.exports = new FileToField;

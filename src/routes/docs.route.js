@@ -26,7 +26,6 @@ router.get('/', (req, res, next) => {
 
 	const host = req.headers.host.split(':');
 	const port = host[host.length - 1];
-	console.log(host, port)
 	generatedURL.port = port;
 
 	res.json({

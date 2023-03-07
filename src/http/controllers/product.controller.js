@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { validationResult } = require('express-validator');
+const Controller = require('@controllers/controller');
 const Product = require('@models/product.model');
 const SubCategory = require('@models/subCategory.model');
-const { BadRequestError, NotFoundError } = require('@errors/errors');
+const { NotFoundError } = require('@errors/errors');
 const { StatusCodes } = require('http-status-codes');
 
-class CategoryController {
+class CategoryController extends Controller {
 	async getAll(req, res, next) {
 		const page = parseInt(req.query.page) || 1, limit = parseInt(req.query.limit) || -1;
 		const paginateOptions = {
@@ -28,16 +28,12 @@ class CategoryController {
 	}
 
 	async create(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
+		await this.validateData(req, () => {
 			if (req.file)
 				try {
-					fs.unlinkSync(req.file.path, error => console.error(error));
+					fs.unlinkSync(req.file.path);
 				} catch (error) { console.error(error) }
-
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		});
 
 		const { name, description, price: _price, quantity: _quantity, subCategory: subCategoryId } = req.body;
 		const image = req.file;
@@ -48,13 +44,13 @@ class CategoryController {
 
 		const price = !isNaN(_price) ? Number(_price) : 0, quantity = !isNaN(_quantity) ? Number(_quantity) : 0;
 
-		const newProduct = Product.create({
+		const newProduct = await Product.create({
 			name,
 			description,
 			price,
 			quantity,
 			subCategory: subCategoryId,
-			image: path.resolve(image.path)
+			image: this.getImagePath(image)
 		});
 
 		res.status(StatusCodes.CREATED).json({ message: `product '${newProduct.name}' created` });
@@ -79,16 +75,7 @@ class CategoryController {
 	}
 
 	async update(req, res, next) {
-		const result = await validationResult(req);
-		if (!result.isEmpty()) {
-			if (req.file)
-				try {
-					fs.unlinkSync(req.file.path, error => console.error(error));
-				} catch (error) { console.error(error) }
-
-			const errors = result.array();
-			throw new BadRequestError(errors[0].msg);
-		}
+		await this.validateData(req);
 
 		const {
 			params: { id: productId },
@@ -109,8 +96,8 @@ class CategoryController {
 		let imagePath;
 		if (image) {
 			try {
-				fs.unlinkSync(product.image);
-				imagePath = path.resolve(image.path);
+				fs.unlinkSync(this.getImageDir(product.image));
+				imagePath = this.getImagePath(image);
 			} catch (error) { console.error(error) }
 		}
 
@@ -136,10 +123,21 @@ class CategoryController {
 			throw new NotFoundError(`no product was found with id: '${productId}'`);
 
 		try {
-			fs.unlinkSync(product.image);
+			fs.unlinkSync(this.getImageDir(product.image));
 		} catch (error) { console.error(error) }
 
 		res.status(StatusCodes.OK).json({ message: `product '${product.name}' deleted` });
+	}
+
+	getImagePath(image) {
+		const imageFullPath = `${image.destination}/${image.filename}`;
+		const imagePath = imageFullPath.replace(config.PUBLIC_DIR, '');
+		return encodeURI(imagePath);
+	}
+
+	getImageDir(image) {
+		const dir = path.join(config.PUBLIC_DIR, image);
+		return decodeURI(dir);
 	}
 }
 

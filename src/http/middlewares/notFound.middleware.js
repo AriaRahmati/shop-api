@@ -1,7 +1,10 @@
+const Middleware = require('@middlewares/middleware');
 const { NotFoundError } = require('@errors/errors');
 
-const notFound = (req, res, next) => {
-	throw new NotFoundError('route does not exist');
+class NotFound extends Middleware {
+	handle(req, res, next) {
+		throw new NotFoundError('route does not exist');
+	}
 }
 
-module.exports = notFound;
+module.exports = new NotFound;
