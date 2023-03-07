@@ -21,7 +21,7 @@ info:
     url: https://github.com/AriaRahmati
   license:
     name: MIT
-    url: 'https://opensource.org/license/mit/'
+    url: "https://opensource.org/license/mit/"
   version: 1.0.0
 servers:
   - url: https://shop-api.iran.liara.run/api/v1
@@ -497,7 +497,7 @@ components:
               description:
                 type: string
                 maxLength: 200
-                default: ''
+                default: ""
               price:
                 type: integer
                 format: uint32
@@ -528,7 +528,7 @@ components:
               description:
                 type: string
                 maxLength: 200
-                default: ''
+                default: ""
               price:
                 type: integer
                 format: uint32
@@ -628,7 +628,12 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Success"
+            allOf:
+              - $ref: "#/components/schemas/Success"
+              - type: object
+                properties:
+                  _id:
+                    type: string
     BadRequestError:
       description: BAD REQUEST
       content:
