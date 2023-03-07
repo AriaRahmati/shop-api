@@ -7,14 +7,14 @@ class Controller {
 		autoBindI(this);
 	}
 
-	async validateData(req, cb = () => { }) {
+	async validateData(req, cb = (errors) => { }) {
 		const result = await validationResult(req);
 		if (!result.isEmpty()) {
 			const errors = result.array();
 			const messages = [];
 			errors.forEach(err => { messages.push(err.msg) });
 
-			cb();
+			cb(errors);
 			throw new BadRequestError(messages[0]); // TODO: Handle multiple errors in the future
 		}
 	}

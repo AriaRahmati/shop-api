@@ -9,7 +9,7 @@ const RegisterValidator = require('@validators/auth/register.validator');
 const LoginValidator = require('@validators/auth/login.validator');
 
 // Routes
-router.post('/register', RegisterValidator.handle(), RegisterController.registerProcess);
-router.post('/login', LoginValidator.handle(), LoginController.loginProcess);
+router.post('/register', RegisterValidator.handle(), RegisterController.register);
+router.post('/login', LoginValidator.handle(), LoginController.login);
 
 module.exports = router;

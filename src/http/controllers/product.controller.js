@@ -28,7 +28,7 @@ class CategoryController extends Controller {
 	}
 
 	async create(req, res, next) {
-		await this.validateData(req, () => {
+		await this.validateData(req, (errors) => {
 			if (req.file)
 				try {
 					fs.unlinkSync(req.file.path);

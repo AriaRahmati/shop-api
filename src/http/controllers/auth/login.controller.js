@@ -4,11 +4,17 @@ const { NotFoundError, UnAuthorizedError } = require('@errors/errors');
 const { StatusCodes } = require('http-status-codes');
 
 class LoginController extends Controller {
-	async loginProcess(req, res, next) {
+	async login(req, res, next) {
 		await this.validateData(req);
 
 		const { email, password } = req.body;
 
+		const token = await this.loginProcess(email, password)
+
+		res.status(StatusCodes.OK).json({ token });
+	}
+
+	async loginProcess(email, password) {
 		const user = await User.findOne({ email });
 		if (!user)
 			throw new NotFoundError(`'${email}' is not registered`);
@@ -17,7 +23,8 @@ class LoginController extends Controller {
 			throw new UnAuthorizedError('password is not correct');
 
 		const token = user.generateToken();
-		res.status(StatusCodes.OK).json({ token });
+
+		return token;
 	}
 }
 
