@@ -4,18 +4,24 @@ A simple Shop API
 
 ## Table Of Contents
 
-*   [Tech Stack](#tech-stack)
-*   [Documentation](#documentation)
-*   [Demo](#demo)
-*   [Getting Started](#getting-started)
-    *   [Prerequisites](#prerequisites)
-    *   [Installation](#installation)
-    *   [Environment Variables](#environment-variables)
-    *   [Run Locally](#run-locally)
-*   [Contributing](#contributing)
-*   [Appendix](#appendix)
-*   [License](#license)
-*   [Authors](#authors)
+- [Shop API](#shop-api)
+  - [Table Of Contents](#table-of-contents)
+  - [Tech Stack](#tech-stack)
+  - [Documentation](#documentation)
+  - [Demo](#demo)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Environment Variables](#environment-variables)
+    - [Run Locally](#run-locally)
+        - [Development:](#development)
+  - [Contributing](#contributing)
+      - [Activate hooks](#activate-hooks)
+      - [Add hook](#add-hook)
+  - [Appendix](#appendix)
+          - [jsconfig.json](#jsconfigjson)
+  - [License](#license)
+  - [Authors](#authors)
 
 ## Tech Stack
 
@@ -26,11 +32,11 @@ A simple Shop API
 
 ## Documentation
 
-[Documentation](https://shop-api.iran.liara.run/api/v1/docs/redoc)
+[Documentation](https://shopapi.iran.liara.run/api/v1/docs/redoc)
 
 ## Demo
 
-[Shop API](https://shop-api.iran.liara.run) hosted on [Liara](http://liara.ir/)
+[Shop API](https://shopapi.iran.liara.run) hosted on [Liara](http://liara.ir/)
 
 ## Getting Started
 

@@ -24,7 +24,7 @@ info:
     url: "https://opensource.org/license/mit/"
   version: 1.0.0
 servers:
-  - url: https://shop-api.iran.liara.run/api/v1
+  - url: https://shopapi.iran.liara.run/api/v1
     description: Production Server
   - url: http://localhost:3000/api/v1
     description: Development Server
