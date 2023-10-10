@@ -32,7 +32,7 @@ A simple Shop API
 
 ## Documentation
 
-[Documentation](https://shopapi.iran.liara.run/api/v1/docs/redoc)
+[Documentation](https://shopapi.iran.liara.run/api/v1/docs/swagger/)
 
 ## Demo
 
